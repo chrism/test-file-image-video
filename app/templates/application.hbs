@@ -1,3 +1,7 @@
-<h2 id="title">Welcome to Ember.js</h2>
+<h2 id="title">Rendering images and videos testing</h2>
 
-{{outlet}}
+{{file-chooser name="file-chooser" id="file-chooser" action="addFile"}}
+
+{{#each model as |item|}}
+  {{item.file}}
+{{/each}}

@@ -2,6 +2,6 @@
 
 {{file-chooser name="file-chooser" id="file-chooser" action="addFile"}}
 
-{{#each model as |item|}}
-  {{item.file}}
+{{#each allAssets as |item|}}
+  {{component item.componentType file=item.file}}
 {{/each}}

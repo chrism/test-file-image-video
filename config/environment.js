@@ -28,7 +28,8 @@ module.exports = function(environment) {
     ENV.contentSecurityPolicy = {
       'style-src': "style-src 'self' 'unsafe-inline'",
       'script-src': "'self' 'unsafe-inline'",
-      'img-src': "data: 'self'"
+      'img-src': "data: 'self'",
+      'media-src': "data: 'self'"
     };
   }
 

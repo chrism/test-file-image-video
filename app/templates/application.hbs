@@ -2,6 +2,8 @@
 
 {{file-chooser name="file-chooser" id="file-chooser" action="addFile"}}
 
+<ul class="downloading-assets-list">
 {{#each allAssets as |item|}}
   {{component item.componentType file=item.file}}
 {{/each}}
+</ul>

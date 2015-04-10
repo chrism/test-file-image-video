@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
-  coverScale: function() {
+  coverScale: function(item) {
     var container = this.$();
-    var item = this.$('img');
+    //var item = this.$('img');
     
     var cW = container.outerWidth();
     var cH = container.outerHeight();

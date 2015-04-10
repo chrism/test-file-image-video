@@ -1,52 +1,32 @@
 import Ember from 'ember';
 import CoverScale from '../mixins/cover-scale';
+/* global FrameGrab */
 
 export default Ember.Component.extend(CoverScale, {
   tagName: 'li',
   classNames: ['downloading-asset', 'footage'],
 
-  addFootage: function(video) {
-    Ember.Logger.log('adding video...', video);
-    this.$().append('<video></video>');
-    this.$('video').attr({
-      src: video.src,
-      width: video.width,
-      height: video.height
-    });
-  },
-
-  getVideoFromFile: function() {
-    var file = this.get('file');
-
-    return new Promise(function(resolve, reject) {
-      var reader = new FileReader();
-      reader.onload = () => {
-        Ember.Logger.log('straight object...', reader.result);
-
-        var video = document.createElement("video");
-
-        video.addEventListener("canplay", () => {
-          Ember.Logger.log('can play...', video);
-          resolve(video);
-        });
-
-        video.onerror = function() {
-          reject('cannot play this type of video');
-        };
-
-        video.src = reader.result;
-      };
-      reader.readAsDataURL(file);
-    })
-  },
-
   didInsertElement: function() {
-    this.getVideoFromFile()
-    .then((video) =>{
-      this.addFootage(video);
-    })
-    .catch((error) =>{
-      Ember.Logger.log(error);
-    })
+    var _this = this;
+
+    FrameGrab.blob_to_video(this.get('file'))
+    .then(
+      function (videoEl) {
+        var frameGrabInstance = new FrameGrab({video: videoEl});
+        frameGrabInstance.grab("canvas", 1).then(
+          function (itemEntry) {
+            _this.$().append(itemEntry.container);
+            _this.coverScale(_this.$('canvas'));
+          },
+
+          function (error) {
+            Ember.Logger.log('could not grab an image from the video', error);
+          }
+        );
+      },
+      function (error) {
+        Ember.Logger.log('frame grab could not load the file', error);
+      }
+    );
   }
 });

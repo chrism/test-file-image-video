@@ -12,7 +12,7 @@ export default Ember.Component.extend(CoverScale, {
       width: width,
       height: height
     });
-    this.coverScale();
+    this.coverScale(this.$('img'));
   },
 
   didInsertElement: function() {
